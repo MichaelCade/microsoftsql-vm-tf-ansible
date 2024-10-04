@@ -1,0 +1,16 @@
+variable "vsphere_user" {}
+variable "vsphere_password" {}
+variable "vsphere_vcenter" {}
+variable "vsphere_datacenter" {}
+variable "vsphere_cluster" {}
+variable "vsphere_resource_pool" {}
+variable "vsphere_datastore" {}
+variable "vsphere_network" {}
+variable "windows_template" {}
+variable "sql_server_name" {}
+variable "sql_server_ip" {}
+variable "vsphere_folder" {}
+variable "windows_password" {}
+variable "gateway" {}
+variable "dns1" {}
+variable "dns2" {}

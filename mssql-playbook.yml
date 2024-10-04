@@ -1,0 +1,39 @@
+---
+- name: Install Microsoft SQL Server and SQL Management Studio
+  hosts: sql_servers
+  tasks:
+    - name: Reboot Windows server if needed
+      win_reboot:
+        msg: "Reboot initiated by Ansible due to pending operations"
+        pre_reboot_delay: 5
+
+    - name: Wait for system to come back online
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+
+    - name: Install Chocolatey
+      win_shell: |
+        Set-ExecutionPolicy Bypass -Scope Process -Force; 
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
+        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      args:
+        creates: C:\ProgramData\chocolatey\bin\choco.exe
+
+    - name: Install sql-server-2022
+      win_chocolatey:
+        name: sql-server-2022
+        version: '16.0.1000.6'
+        state: present
+        install_args: '/SQLSYSADMINACCOUNTS="{{ ansible_user }}"'
+      register: sql_install
+
+    - name: Debug SQL Server installation
+      debug:
+        var: sql_install
+
+    - name: Install sql-server-management-studio
+      win_chocolatey:
+        name: sql-server-management-studio
+        version: '20.2.30'
+        state: present

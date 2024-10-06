@@ -35,5 +35,6 @@
     - name: Install sql-server-management-studio
       win_chocolatey:
         name: sql-server-management-studio
-        version: '20.2.30'
+        version: '19.0.20209.0'
         state: present
+        force: yes
